@@ -1,7 +1,17 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./globals.css";
+import { Navbar } from "@/app/_Components/Navbar/Navbar";
+import { Footer } from "@/app/_Components/Footer/Footer";
+import { Toaster } from "sonner";
+import { SessionProvider } from "next-auth/react";
+import MySessionProvider from "./_Components/MySessionProvider/MySessionProvider";
+
+// import '@fortawesome/fontawesome-free/css/all.main.css'
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,7 +37,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+
+
+        <MySessionProvider>
+          <Navbar />
+          <main className="p-20">
+            {children}
+          </main>
+          <Footer />
+            <Toaster />
+        </MySessionProvider>
       </body>
     </html>
   );
