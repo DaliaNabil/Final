@@ -21,7 +21,7 @@ export interface productItem {
     createdAt:       Date;
     updatedAt:       Date;
     __v:             number;
-    reviews:         any[];
+    reviews:         unknown[];
     id:              string;
 }
 

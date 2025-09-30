@@ -1,6 +1,7 @@
 'use server'
 import React from 'react';
 import { getMyUserToken } from '@/utils/utils';
+import Link from 'next/link';
 
 interface OrderProduct {
     _id: string;
@@ -78,10 +79,10 @@ export default async function AllOrders() {
         return (
             <div className="flex flex-col items-center justify-center min-h-[50vh] p-4 text-center">
                 <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200">No Orders Found</h1>
-                <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">Looks like you haven't placed any orders yet.</p>
-                <a href="/" className="mt-6 text-white bg-blue-600 hover:bg-blue-700 font-semibold py-2 px-6 rounded-lg transition duration-200 shadow-md">
+                <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">Looks like you haven t placed any orders yet.</p>
+                <Link href="/" className="mt-6 text-white bg-blue-600 hover:bg-blue-700 font-semibold py-2 px-6 rounded-lg transition duration-200 shadow-md">
                     Start Shopping
-                </a>
+                </Link>
             </div>
         );
     }

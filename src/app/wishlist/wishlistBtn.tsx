@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { WishlistButtonProps } from '@/types/wishlist.types';
 import { addProductToWishlist, removeProductFromWishlist } from '@/actions/wishlistactions';
 
+
 export default function WishlistButton({ productId, isInitiallyInWishlist }: WishlistButtonProps) {
     const [isInWishlist, setIsInWishlist] = useState(isInitiallyInWishlist);
     const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +40,7 @@ export default function WishlistButton({ productId, isInitiallyInWishlist }: Wis
         : "bg-gray-200 hover:bg-gray-300 text-gray-800";
 
     return (
-        <form action={handleWishlistAction}>
+        <form action={() => handleWishlistAction()}>
             <Button
                 type="submit"
                 className={`transition-colors duration-200 p-2 rounded-full ${buttonClass}`}

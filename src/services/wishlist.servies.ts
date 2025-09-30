@@ -2,9 +2,7 @@
 
 import { WishlistApiResponse } from "@/types/wishlist.types";
 import { getMyUserToken } from "@/utils/utils";
-import { revalidateTag } from "next/cache";
 
-// Define a type for the API response
 
 
 export async function getWishlist(): Promise<WishlistApiResponse | { status: 'error', message: string }> {
