@@ -1,26 +1,31 @@
-import { product } from "./Products.type";
+export interface ProductDetails {
 
-export interface WishlistItemType {
     _id: string;
-    imageCover: string;
     title: string;
+    slug: string;
+    category: {
+        name: string;
+    };
     price: number;
-    id: string;
+    imageCover: string;
+
+
 }
- 
-export interface WishlistButtonProps {
-    productId: string;
-    isInitiallyInWishlist: boolean;
+
+export interface WishlistItemType extends ProductDetails {
+
+    id: string; 
 }
 
 export interface WishlistApiResponse {
-    status: string;
+    status: 'success';
     count: number;
-    data: {
-        _id: string;
-        imageCover: string;
-        title: string;
-        price: number;
-        id: string;
-    }[];
+    data: WishlistItemType[];
+}
+
+export interface UserTokenPayload {
+    id: string;
+    name: string;
+    iat: number;
+    exp: number;
 }

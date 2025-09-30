@@ -3,8 +3,6 @@
 import { WishlistApiResponse } from "@/types/wishlist.types";
 import { getMyUserToken } from "@/utils/utils";
 
-
-
 export async function getWishlist(): Promise<WishlistApiResponse | { status: 'error', message: string }> {
     try {
         const token = await getMyUserToken();
