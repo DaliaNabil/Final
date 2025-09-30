@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { jwtDecode } from "jwt-decode";
 import { email } from "zod";
+import { id } from 'zod/v4/locales';
 
 
 export const nextAuthConfig: NextAuthOptions = {
@@ -15,33 +16,38 @@ export const nextAuthConfig: NextAuthOptions = {
                 email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" },
             },
-          async authorize (credentials){
-             console.log (credentials) ;
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/signin`,{
+            async authorize(credentials, req) {
+                console.log('req', req)
+                try {
+                    const res = await fetch(`https://ecommerce.routemisr.com/api/v1/auth/signin`, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            email: credentials?.email,
+                            password: credentials?.password,
+                        }),
 
-                    method: 'post',
-                    body: JSON.stringify({
-                     email : credentials?.email,
-                     password :credentials?.password
-                    }),
-                    headers:{
-                        'Content-Type' :"application/json"
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+
+                    const finalRes = await res.json();
+                    console.log('finalRes authorize', finalRes)
+
+                    if (res.ok && finalRes.token) {
+                        const decodedToken: { id: string } = jwtDecode(finalRes.token)
+                        return {
+                            id: decodedToken.id,
+                            name: finalRes.user.name,
+                            email: finalRes.user.email,
+                            credentialsToken: finalRes.token,
+                        }
+                    } else {
+                        return null;
                     }
-                })
-                const data = await res.json()
-                console.log ("data",data);
-
-                if (data.message == 'success'){
-                  const decodedToken:{id:string} = jwtDecode (data.token)
-                  
-                  return{
-                        id : decodedToken.id,
-                        userData:data.user ,
-                        tokenData:data.token
-                   }
-
-                }else{
-                    throw new Error(data.message)
+                } catch (error) {
+                    console.error("Authorization error:", error);
+                    return null;
                 }
             },
         })
@@ -86,8 +92,8 @@ export const nextAuthConfig: NextAuthOptions = {
 
     //     return session;
     // },
-    session:{
-        maxAge:60*60*7*24
+    session: {
+        maxAge: 60 * 60 * 7 * 24
     }
 }
 
